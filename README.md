@@ -18,15 +18,18 @@ Since this is a demo application developed with limited time and
 resources, there are processes that are deemed out-of-scope, these 
 include (but not limited to):
 - New player sign-up process: Players without an ID is considered a new
-player in this application. And will be initialised with 1000 units.
-- There are no login process for existing players: If time is not a
-constraint then player authentication and identification should be done
-via OAuth tokens, rather than plain-old playerId.
+player in this application. And will be initialised with 1000 units. In 
+practice, Sign ups should be handled by a separate micro-service.
+- There are no log-in process for existing players: If time is not a
+constraint then I would have handled player authentication and 
+identification via OAuth tokens, rather than plain-old playerId.
+- Permanent persistence: I've chosen to use H2 in-memory database for
+demonstration purpose, as it is easier to set up for quick prototyping.
 
-I have, however, took the liberty of building a simple UI for this game 
-even though I believe this is also out of the scope of this assessment. It
-is very basic with ajax calls so please don't judge too hard on this! I 
-built it mainly because I think it's a shame to have just the logic and no
+I have, however, taken the liberty of building a simple UI for this game 
+even though I believe UI is also out of the scope of this assessment. It
+is rather basic with Ajax calls so please don not judge too hard on this! I 
+built it mainly because it would be a shame to have only the logic and no
 visuals for such classic game.
 
 
