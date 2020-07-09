@@ -1,8 +1,3 @@
-## Introduction
-This is a solution for a code challenge set by Push Gaming. It will be 
-published to GitHub but will remain private unless requested otherwise.
-- Candidate name: **Sherman Tam**
-
 ## About this Project
 
 This **Snake Eyes** application is a basic representation of the popular
