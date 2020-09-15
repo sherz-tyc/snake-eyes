@@ -1,3 +1,31 @@
 h1 {
 	display: inline;
 }
+
+#dice1, #dice2 {
+	background-color: #000000;
+	color: #ffff00;
+	padding: 0px 5px 0px 5px;
+}
+
+.instructions {
+	text-align: left;
+	margin-top: 10px;
+}
+
+.jumbotron {
+	text-align: center;
+}
+
+.container.gamelog {
+	text-align: center;
+}
+
+.prizes {
+	background-color: #515151;
+	color: #ffffff;
+}
+
+.instructions p {
+	font-size: medium;
+}

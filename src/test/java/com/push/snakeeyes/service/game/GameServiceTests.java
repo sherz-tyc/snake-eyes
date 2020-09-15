@@ -1,8 +1,5 @@
 package com.push.snakeeyes.service.game;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.comparesEqualTo;
@@ -10,9 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
-import org.apache.http.entity.ContentType;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.push.snakeeyes.entity.GameResult;
 import com.push.snakeeyes.entity.Outcome;
 import com.push.snakeeyes.entity.Player;
@@ -38,8 +31,6 @@ import com.push.snakeeyes.service.player.PlayerService;
 	"dices.api.uriPath=/integers/?num=2&min=1&max=6&col=2&base=10&format=plain"})
 @TestInstance(Lifecycle.PER_CLASS)
 public class GameServiceTests {
-	
-	public static WireMockServer wiremock = new WireMockServer(6063);
 	
 	@Value("${dices.api.uriPath}")
 	private String dicesUriPath;
@@ -53,6 +44,9 @@ public class GameServiceTests {
 	@MockBean
 	private WinningService mockedWinningsService;
 	
+	@MockBean
+	private DiceRollService mockedDiceRollService;
+	
 	Player defaultPlayer;
 	Player updatedPlayer;
 	
@@ -60,11 +54,11 @@ public class GameServiceTests {
 	public void setup() {
 		ReflectionTestUtils.setField(gameService, "playerService", mockedPlayerService);
 		ReflectionTestUtils.setField(gameService, "winningsService", mockedWinningsService);
+		ReflectionTestUtils.setField(gameService, "diceRollService", mockedDiceRollService);
 		
 		defaultPlayer = new Player("Newbie", new BigDecimal(1000));
 		updatedPlayer = new Player(1l, "Newbie", new BigDecimal(1058));
 		
-		wiremock.start();
 	}
 	
 	@Test
@@ -75,9 +69,7 @@ public class GameServiceTests {
 		defaultPlayer = new Player("Newbie", new BigDecimal(1000));
 		updatedPlayer = new Player(1l, "Newbie", new BigDecimal(1058));
 		
-		wiremock.stubFor(get(urlEqualTo(dicesUriPath)).willReturn(aResponse()
-				.withHeader("Content-Type", ContentType.TEXT_PLAIN.toString())
-				.withBody("1	1")));
+		when(mockedDiceRollService.rollDices()).thenReturn(new int[]{1,1});
 		when(mockedPlayerService.update(playerCaptor.capture())).thenReturn(updatedPlayer);
 		when(mockedWinningsService.logWinning(outcomeCaptor.capture())).thenReturn(new Outcome());
 		when(mockedWinningsService.calculate(Mockito.anyDouble(), Mockito.any(GameResult.class)))
@@ -107,9 +99,7 @@ public class GameServiceTests {
 		defaultPlayer = new Player("Newbie", new BigDecimal(1000));
 		updatedPlayer = new Player(1l, "Newbie", new BigDecimal(1012));
 		
-		wiremock.stubFor(get(urlEqualTo(dicesUriPath)).willReturn(aResponse()
-				.withHeader("Content-Type", ContentType.TEXT_PLAIN.toString())
-				.withBody("3	3")));
+		when(mockedDiceRollService.rollDices()).thenReturn(new int[]{3,3});
 		when(mockedPlayerService.update(playerCaptor.capture())).thenReturn(updatedPlayer);
 		when(mockedWinningsService.logWinning(outcomeCaptor.capture())).thenReturn(new Outcome());
 		when(mockedWinningsService.calculate(Mockito.anyDouble(), Mockito.any(GameResult.class)))
@@ -140,9 +130,7 @@ public class GameServiceTests {
 		defaultPlayer = new Player("Newbie", new BigDecimal(1000));
 		updatedPlayer = new Player(1l, "Newbie", new BigDecimal(998));
 		
-		wiremock.stubFor(get(urlEqualTo(dicesUriPath)).willReturn(aResponse()
-				.withHeader("Content-Type", ContentType.TEXT_PLAIN.toString())
-				.withBody("4	3")));
+		when(mockedDiceRollService.rollDices()).thenReturn(new int[]{4,3});
 		when(mockedPlayerService.update(playerCaptor.capture())).thenReturn(updatedPlayer);
 		when(mockedWinningsService.logWinning(outcomeCaptor.capture())).thenReturn(new Outcome());
 		when(mockedWinningsService.calculate(Mockito.anyDouble(), Mockito.any(GameResult.class)))
@@ -167,11 +155,7 @@ public class GameServiceTests {
 	@Test
 	void givenStakeOf2_whenReceivedNoDiceOutcome_thenExpectExceptionThrown() {
 		
-		
-		wiremock.stubFor(get(urlEqualTo(dicesUriPath)).willReturn(aResponse()
-				.withHeader("Content-Type", ContentType.TEXT_PLAIN.toString())
-				.withBody("	")));
-		
+		when(mockedDiceRollService.rollDices()).thenThrow(new OutcomeRetrievalException());
 		final double expectedStake = 2;
 		
 		assertThatThrownBy(() -> {
@@ -185,11 +169,7 @@ public class GameServiceTests {
 	@Test
 	void givenStakeOf2_whenReceivedInvlidNumberOfDices_thenExpectExceptionThrown() {
 		
-		
-		wiremock.stubFor(get(urlEqualTo(dicesUriPath)).willReturn(aResponse()
-				.withHeader("Content-Type", ContentType.TEXT_PLAIN.toString())
-				.withBody("3	")));
-		
+		when(mockedDiceRollService.rollDices()).thenThrow(new OutcomeRetrievalException());
 		final double expectedStake = 2;
 		
 		assertThatThrownBy(() -> {
@@ -198,15 +178,5 @@ public class GameServiceTests {
 		.isInstanceOf(OutcomeRetrievalException.class)
 		.hasMessageMatching(".+");
 		
-	}
-	
-	@AfterEach
-	void after() {
-		wiremock.resetAll();
-	}
-
-	@AfterAll
-	static void clean() {
-		wiremock.shutdown();
 	}
 }

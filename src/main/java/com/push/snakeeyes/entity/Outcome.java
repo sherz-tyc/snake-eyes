@@ -38,7 +38,7 @@ public class Outcome {
 	private double stake;
 	
 	@JsonProperty("attempted_date")
-	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private LocalDateTime attemptedAt;
 	
 	@JsonProperty("winnings")

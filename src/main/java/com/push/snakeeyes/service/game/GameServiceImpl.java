@@ -5,21 +5,15 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.push.snakeeyes.entity.GameResult;
 import com.push.snakeeyes.entity.Outcome;
 import com.push.snakeeyes.entity.Player;
 import com.push.snakeeyes.exception.OutcomeRetrievalException;
 import com.push.snakeeyes.service.player.PlayerService;
-import com.push.snakeeyes.util.GameUtils;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class GameServiceImpl implements GameService {
 	
 	@Value("${dices.api.baseUri}")
@@ -33,11 +27,14 @@ public class GameServiceImpl implements GameService {
 	
 	@Autowired
 	private WinningService winningsService;
+	
+	@Autowired
+	private DiceRollService diceRollService;
 
 	@Override
 	public Outcome submitAttempt(Player player, double stake)  throws OutcomeRetrievalException {
 
-		int[] result = rollDices();
+		int[] result = diceRollService.rollDices();
 		GameResult resultType = determineResult(result);
 		
 		BigDecimal winnings = winningsService.calculate(stake, resultType);
@@ -55,19 +52,7 @@ public class GameServiceImpl implements GameService {
 		
 		return outcome;
 	}
-	
-	private int[] rollDices() {
-		log.info("Make the external API call to retrieve dices outcome");
-		RestTemplate restTemplate = new RestTemplate();
-		
-		ResponseEntity<String> response = restTemplate.getForEntity(dicesBaseUri + dicesUriPath, String.class);
-		log.debug("External API Response: {}", response.getBody());
-		if (response.getBody() == null || response.getBody().isEmpty()) {
-			throw new OutcomeRetrievalException();
-		}
-		return GameUtils.processDicesOutcome(response.getBody());
-	}
-	
+
 	private Outcome populateOutcome(int[] result, double stake, GameResult resultType, 
 			BigDecimal winnings, Player player) {
 		

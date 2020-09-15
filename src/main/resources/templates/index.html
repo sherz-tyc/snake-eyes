@@ -20,20 +20,24 @@
 <body>
 	<div class="container">
 		<!-- Main component for a primary marketing message or call to action -->
-		<div class="jumbotron" style="text-align: center">
+		<div class="jumbotron">
 			<!--Usage of models we wrote in WepAppController th:text="'Welcome to basic Bootstrap with Spring Boot created by ' + ${username} -->
-			<h1 style="background-color: #ffffff" id="dice1">?</h1>
+			<h1 id="dice1">?</h1>
 			<h1>-</h1>
-			<h1 style="background-color: #ffffff" id="dice2">?</h1>
+			<h1 id="dice2">?</h1>
 			<h2>Let's Play Snake Eyes!</h2>
-			<p>Enter the value of Stake (1 or 2 or 10), enter Player ID
-				(Optional), then hit the button below to submit an entry.</p>
+			<div class="prizes">Prizes: Pair of 1's (Snake Eyes) = x30 return! Any other Pairs = x7 return.</div>
+			<div class="instructions">
+				<p>1) Enter Player ID (if known).</p>
+				<p>2) Enter the value of Stake (1 or 2 or 10). New players will be assigned an initial credit of £1000.00</p>
+				<p>3) Hit the "Play" button to submit an entry!</p>
+			</div>
 
 			<div class="input-group">
+				<input type="number"  id="playerId" class="form-control" placeholder="Player ID (Leave blank for new players)">
 				<span class="input-group-addon">£</span> 
-				<input type="number"  id="stakeValue" class="form-control" placeholder="Amount (1 or 2 or 10)">
+				<input type="number"  id="stakeValue" class="form-control" placeholder="Stake value (1 or 2 or 10)">
 				<span class="input-group-addon">.00</span>
-				<input type="number"  id="playerId" class="form-control" placeholder="Player ID (Optional)">
 			</div>
 			<br />
 			<div id="feedback"></div>
@@ -42,7 +46,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="container" style="text-align: center">
+	<div class="container gamelog">
 		<!-- Main component for a primary marketing message or call to action -->
 		<p>Game Log for player:</p><p id="currentPlayerId"></p>
 		<div id="gamelog_feedback"></div>

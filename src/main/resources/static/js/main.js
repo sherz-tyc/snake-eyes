@@ -40,8 +40,8 @@ function fire_ajax_submit() {
         	var currentPlayerId = data.player_id;
 
             var result = "<h2 style=\"color:blue\">" + data.payout_name + "</h2>"
-                + "<h3> You have won - £" + data.winnings + "</h3>"
-                + "<h3> Your new balance - £" + data.updated_balance + "</h3>";
+                + "<h3> You have won £" + data.winnings + "</h3>"
+                + "<h3> Your new balance is £" + data.updated_balance + "</h3>";
             $('#dice1').html(dice1);
             $('#dice2').html(dice2);
             $('#feedback').html(result);

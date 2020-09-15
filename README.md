@@ -1,8 +1,3 @@
-## Introduction
-This is a solution for a code challenge set by Push Gaming. It will be 
-published to GitHub but will remain private unless requested otherwise.
-- Candidate name: **Sherman Tam**
-
 ## About this Project
 
 This **Snake Eyes** application is a basic representation of the popular
@@ -13,8 +8,8 @@ earns you a 7x multiplier against your stake. Dices with no matching
 outcomes do not get any prizes other than the satisfaction of pressing
 the flashy button.
 
-## Notes about this submission
-Since this is a demo application developed with limited time and 
+## Notes about this application
+Since this is a personal demo application developed with limited time and 
 resources, there are processes that are deemed out-of-scope, these 
 include (but not limited to):
 - New player sign-up process: Players without an ID is considered a new
@@ -27,10 +22,10 @@ identification via OAuth tokens, rather than plain-old playerId.
 demonstration purpose, as it is easier to set up for quick prototyping.
 
 I have, however, taken the liberty of building a simple UI for this game 
-even though I believe UI is also out of the scope of this assessment. It
+even though I believe UI is also out of the scope of this exercise. It
 is rather basic with Ajax calls so please don not judge too hard on this! I 
-built it mainly because it would be a shame to have only the logic and no
-visuals for such classic game.
+built it mainly because it would be a shame to have only the business 
+logic but without any visuals for such classic game.
 
 
 ## Designs/Tools
