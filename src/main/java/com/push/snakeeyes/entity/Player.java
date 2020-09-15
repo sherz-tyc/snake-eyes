@@ -11,6 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Simple entity representing a player.
+ */
 @Entity
 @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Player {

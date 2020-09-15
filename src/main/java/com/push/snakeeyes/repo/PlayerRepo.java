@@ -8,8 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
+import com.push.snakeeyes.entity.Outcome;
 import com.push.snakeeyes.entity.Player;
 
+/**
+ * Repository providing CRUD operations for {@link Outcome} entity.
+ */
 @Repository
 public interface PlayerRepo extends JpaRepository<Player, Long> {
 	

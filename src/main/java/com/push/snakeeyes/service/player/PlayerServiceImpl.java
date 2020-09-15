@@ -2,7 +2,7 @@ package com.push.snakeeyes.service.player;
 
 import java.math.BigDecimal;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

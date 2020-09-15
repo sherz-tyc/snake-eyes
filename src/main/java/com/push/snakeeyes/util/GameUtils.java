@@ -4,6 +4,13 @@ import com.push.snakeeyes.exception.OutcomeRetrievalException;
 
 public class GameUtils {
 	
+	/**
+	 * Convert outcome obtained from external source into an int array
+	 * representation.
+	 * 
+	 * @param outcomeString outcome string obtained from external source.
+	 * @return outcome represented in int array.
+	 */
 	public static int[] processDicesOutcome(String outcomeString) {
 		int diceA = 0;
 		int diceB = 0;

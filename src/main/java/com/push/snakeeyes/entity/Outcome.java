@@ -16,6 +16,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This entity encapsulates attributes of each outcome of completing a
+ * game. It is primarily used for keeping records (logging) and 
+ * potentially be used for data analysis.
+ */
 @Entity
 @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Outcome {

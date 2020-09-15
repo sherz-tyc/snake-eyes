@@ -3,7 +3,7 @@ package com.push.snakeeyes.service.game;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

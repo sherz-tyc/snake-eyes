@@ -2,6 +2,11 @@ package com.push.snakeeyes.service.game;
 
 public interface DiceRollService {
 	
-	int[] rollDices();
+	/**
+	 * Get dice rolling result.
+	 * 
+	 * @return array of dice rolling result.
+	 */
+	public int[] rollDices();
 
 }

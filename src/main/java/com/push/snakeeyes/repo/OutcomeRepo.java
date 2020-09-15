@@ -1,7 +1,6 @@
 package com.push.snakeeyes.repo;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.LockModeType;
 
@@ -11,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import com.push.snakeeyes.entity.Outcome;
 
+/**
+ * Repository providing CRUD operations for {@link Outcome} entity.
+ */
 @Repository
 public interface OutcomeRepo extends JpaRepository<Outcome, Long> {
 	
